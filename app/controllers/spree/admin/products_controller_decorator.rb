@@ -6,7 +6,6 @@ Spree::Admin::ProductsController.class_eval do
   def check_subscription_intervals
     if params[:product][:subscription_interval_ids].present?
       params[:product][:subscription_interval_ids] = params[:product][:subscription_interval_ids].split(',')
-      puts "params[:product][:subscription_interval_ids]:: #{params[:product][:subscription_interval_ids]}"
     end
   end
 
