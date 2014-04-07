@@ -1,6 +1,8 @@
 Spree::OrdersController.class_eval do
   after_filter :check_subscriptions, :only => [:populate]
 
+  # Spree::PermittedAttributes.taxon_attributes << :subscription_id
+
   protected
 
   # DD: maybe use a format close to OrderPopulator (or move to or decorate there one day)

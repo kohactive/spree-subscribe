@@ -10,7 +10,7 @@ module Intervalable
 
   included do
 
-    attr_accessible :times, :time_unit
+    # attr_accessible :times, :time_unit
 
     validates :times, :time_unit, :presence => true
     validates_inclusion_of :time_unit, :in => UNITS.keys

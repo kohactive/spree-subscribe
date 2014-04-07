@@ -1,10 +1,12 @@
 require 'concerns/intervalable'
 
-class Spree::SubscriptionInterval < ActiveRecord::Base
-  attr_accessible :name
+module Spree
+  class SubscriptionInterval < ActiveRecord::Base
 
-  include Intervalable
+    include Intervalable
+    
+    has_many :subscription_intervals_products, dependent: :destroy, class_name: "Spree::SubscriptionIntervalsProducts"
+    has_many :products, through: :subscription_intervals_products, class_name: "Spree::SubscriptionInterval"
 
-  has_and_belongs_to_many :products, :class_name => "Spree::Product", :join_table => 'spree_subscription_intervals_products'
-  #has_many :subscriptions, :class_name => "Spree::Subscription", :foreign_key => 'interval_id'
+  end
 end
