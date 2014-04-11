@@ -8,6 +8,7 @@ module Spree
     attr_accessor :new_order
 
     belongs_to :line_item, :class_name => "Spree::LineItem"
+    belongs_to :variant, class_name: "Spree::Variant"
     belongs_to :billing_address, :foreign_key => :billing_address_id, :class_name => "Spree::Address"
     belongs_to :shipping_address, :foreign_key => :shipping_address_id, :class_name => "Spree::Address"
     belongs_to :shipping_method
@@ -66,12 +67,16 @@ module Spree
     end
 
     def add_subscribed_line_item
-      variant = Spree::Variant.find(self.line_item.variant_id)
+      if self.line_item.present?
+        variant = Spree::Variant.find(self.line_item.variant_id)
+        line_item = self.new_order.contents.add( variant, self.line_item.quantity )
+        line_item.price = self.line_item.price
+      else
+        line_item = self.new_order.contents.add(self.variant, self.quantity)
+        line_item.price = self.variant.price
+      end
 
-      line_item = self.new_order.contents.add( variant, self.line_item.quantity )
-      line_item.price = self.line_item.price
       line_item.save!
-
       self.new_order.next # -> delivery
     end
 
