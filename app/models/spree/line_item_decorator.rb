@@ -1,7 +1,8 @@
 Spree::LineItem.class_eval do
 
-  has_one :subscription, :foreign_key => "line_item_id", :dependent => :destroy
+  has_many :line_item_subscriptions
+  has_many :subscriptions, through: :line_item_subscriptions
 
-  accepts_nested_attributes_for :subscription
+  accepts_nested_attributes_for :subscriptions
 
 end
