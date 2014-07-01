@@ -125,6 +125,10 @@ module Spree
       reorders.last.display_total
     end
 
+    def quantity line_item
+      line_item_subscriptions.where(line_item_id: line_item.id).first.quantity rescue 0
+    end
+
     private
 
     # DD: if resuming an old subscription

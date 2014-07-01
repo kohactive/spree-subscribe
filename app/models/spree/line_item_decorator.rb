@@ -5,4 +5,12 @@ Spree::LineItem.class_eval do
 
   accepts_nested_attributes_for :subscriptions
 
+  def subscription
+  	subscriptions.first rescue nil
+  end
+
+  def multiple_subscriptions?
+  	subscriptions.count > 1
+  end
+
 end

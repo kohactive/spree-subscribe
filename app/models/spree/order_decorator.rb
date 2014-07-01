@@ -2,10 +2,6 @@ Spree::Order.class_eval do
 
   belongs_to :subscription, :class_name => "Spree::Subscription"
 
-  state_machine :initial => :cart do
-    after_transition :to => :complete, :do => :activate_subscriptions!
-  end
-
   def activate_subscriptions!
     line_items.each do |line_item|
       line_item.subscriptions.start if line_item.subscriptions
