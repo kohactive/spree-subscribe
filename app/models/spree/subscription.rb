@@ -121,8 +121,16 @@ module Spree
       line_items.collect { |l| l.product.series_name }.join(", ")
     end
 
-    def display_total
-      reorders.last.display_total
+    def amount
+      line_items.inject(0.0) { |sum, li| sum + li.amount }
+    end
+
+    def currency
+      self[:currency] || Spree::Config[:currency]
+    end
+
+    def display_amount
+      Spree::Money.new(amount, { currency: currency })
     end
 
     def quantity line_item
